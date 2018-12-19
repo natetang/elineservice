@@ -1,0 +1,14 @@
+---
+- name: copy eline config file
+  copy: src=/opt/xos/synchronizers/elineservice/files/e-line.json dest=/usr/local/e-line.json
+
+
+- name: copy eline shell
+  copy: src=/opt/xos/synchronizers/elineservice/files/eline.sh dest=/usr/local/eline.sh mode=0777
+
+- name: execute shell to post
+  command: sh /usr/local/eline.sh
+  register: log
+
+- name: log file
+  debug: var=log

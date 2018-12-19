@@ -11,8 +11,7 @@ topology_template:
       type: tosca.nodes.ServiceController
       properties:
           base_url: file:///opt/xos_services/elineservice/xos
-          xproto: ./
-          synchronizer: synchronizer/manifest
-          synchronizer_run: elineservice-synchronizer.py
+          #synchronizer: synchronizer/manifest
+          #synchronizer_run: elineservice-synchronizer.py
           private_key: file:///opt/xos/key_import/rcord_rsa
           public_key: file:///opt/xos/key_import/rcord_rsa.pub
