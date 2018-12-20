@@ -13,5 +13,5 @@ topology_template:
           base_url: file:///opt/xos_services/elineservice/xos
           #synchronizer: synchronizer/manifest
           #synchronizer_run: elineservice-synchronizer.py
-          private_key: file:///opt/xos/key_import/rcord_rsa
-          public_key: file:///opt/xos/key_import/rcord_rsa.pub
+          private_key: file:///opt/xos/key_import/ecord_rsa
+          public_key: file:///opt/xos/key_import/ecord_rsa.pub
