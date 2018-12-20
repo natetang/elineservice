@@ -1,4 +1,3 @@
-
 # Copyright 2017-present Open Networking Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,14 +13,7 @@
 # limitations under the License.
 
 
-#from synchronizers.new_base.modelaccessor import OpenStackService, Service
-from synchronizers.new_base.modelaccessor import *
-from synchronizers.new_base.model_policies.model_policy_tenantwithcontainer import TenantWithContainerPolicy
-#from synchronizers.new_base.policy import Policy
-#from synchronizers.new_base.model_policies.model_policy_tenantwithcontainer import LeastLoadedNodeScheduler
+# models.py -  ExampleService Models
 
-class ElineServiceInstancePolicy(TenantWithContainerPolicy):
-    model_name = "ElineServiceInstance"
-
-
-
+from core.models import Service, TenantWithContainer, XOSBase
+from django.db.models import *
