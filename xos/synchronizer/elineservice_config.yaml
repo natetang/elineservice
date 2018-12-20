@@ -14,7 +14,7 @@
 # limitations under the License.
 
 
-name: elineservice
+name: elineservice-synchronizer
 accessor:
   username: xosadmin@opencord.org
   password: "@/opt/xos/services/elineservice/credentials/xosadmin@opencord.org"
