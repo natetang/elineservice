@@ -38,7 +38,7 @@
     when: cron_job_pids_count.stdout == "0"
 
   - name: Copy cron job to destination
-    copy: src=/opt/xos/synchronizers/exampleservice/monitoring_agent/
+    copy: src=/opt/xos/synchronizers/elineservice/monitoring_agent/
       dest=/usr/local/share/monitoring_agent/
     become: yes
     when: cron_job_pids_count.stdout == "0"
@@ -69,7 +69,7 @@
 
   - name : starting monitoring agent
     uri:
-      url: http://localhost:5004/monitoring/agent/exampleservice/start
+      url: http://localhost:5004/monitoring/agent/elineservice/start
       method: POST
       body: '{ "target":"{{target_uri}}", "keystone_user_id": "{{keystone_user_id}}", "keystone_tenant_id": "{{keystone_tenant_id}}" }'
       force_basic_auth: yes

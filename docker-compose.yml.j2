@@ -7,7 +7,7 @@ networks:
     external: true
 
 services:
-  exampleservice-synchronizer:
+  elineservice-synchronizer:
     image: {{ pull_docker_registry }}xosproject/{{ item.name }}-synchronizer:{{ pull_docker_tag }}
     networks:
 {% for network in xos_docker_networks %}

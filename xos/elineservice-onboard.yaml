@@ -1,4 +1,3 @@
-#! /bin/bash
 
 # Copyright 2017-present Open Networking Foundation
 #
@@ -14,5 +13,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-PASSWORD=`cat /opt/credentials/xosadmin@opencord.org`
-curl -H "xos-username: xosadmin@opencord.org" -H "xos-password: $PASSWORD" -X POST --data-binary @exampleservice.yaml 127.0.0.1:9102/run
+
+tosca_definitions_version: tosca_simple_yaml_1_0
+
+description: Onboard the elineservice
+
+imports:
+   - custom_types/xos.yaml
+
+topology_template:
+  node_templates:
+    elineservice:
+      type: tosca.nodes.ServiceController
+      properties:
+          base_url: file:///opt/xos_services/elineservice/xos/
+          # The following will concatenate with base_url automatically, if
+          # base_url is non-null.
+          private_key: file:///opt/xos/key_import/elineservice_rsa
+          public_key: file:///opt/xos/key_import/elineservice_rsa.pub

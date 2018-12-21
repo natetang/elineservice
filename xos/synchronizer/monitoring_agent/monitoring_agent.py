@@ -23,7 +23,7 @@ from kombu.messaging import Exchange, Queue, Consumer, Producer
 import logging
 import logging.handlers
 import logging.config
-import exampleservice_stats as stats
+import elineservice_stats as stats
 import threading
 import subprocess
 import six
@@ -39,10 +39,10 @@ rabbit_user='openstack'
 rabbit_password='80608318c273f348a7c3'
 rabbit_host='10.11.10.1'
 rabbit_exchange='cord'
-publisher_id='exampleservice_publisher'
+publisher_id='elineservice_publisher'
 
-@app.route('/monitoring/agent/exampleservice/start',methods=['POST'])
-def exampleservice_start_monitoring_agent():
+@app.route('/monitoring/agent/elineservice/start',methods=['POST'])
+def elineservice_start_monitoring_agent():
     global start_publish, rabbit_user, rabbit_password, rabbit_host, rabbit_exchange
     global keystone_tenant_id, keystone_user_id, publisher_id
     try:
@@ -61,17 +61,17 @@ def exampleservice_start_monitoring_agent():
         start_publish = True
         periodic_publish()
 
-        logging.info("Exampleservice monitoring is enabled")
-        return "Exampleservice monitoring is enabled"
+        logging.info("Elineservice monitoring is enabled")
+        return "Elineservice monitoring is enabled"
     except Exception as e:
             return e.__str__()
 
-@app.route('/monitoring/agent/exampleservice/stop',methods=['POST'])
+@app.route('/monitoring/agent/elineservice/stop',methods=['POST'])
 def openstack_stop():
     global start_publish
     start_publish = False
-    logging.info ("Exampleservice monitoring is stopped")
-    return "Exampleservice monitoring is stopped"
+    logging.info ("Elineservice monitoring is stopped")
+    return "Elineservice monitoring is stopped"
 
 
 producer = None
@@ -90,11 +90,11 @@ def setup_rabbit_mq_channel():
      publisher_id = publisher_id + '_on_' + hostname
      logging.info('publisher_id=%s',publisher_id)
 
-def publish_exampleservice_stats(example_stats):
+def publish_elineservice_stats(eline_stats):
      global producer
      global keystone_tenant_id, keystone_user_id, publisher_id
 
-     for k,v in example_stats.iteritems():
+     for k,v in eline_stats.iteritems():
           msg = {'event_type': 'cord.'+k,
                  'message_id':six.text_type(uuid.uuid4()),
                  'publisher_id': publisher_id,
@@ -104,13 +104,13 @@ def publish_exampleservice_stats(example_stats):
                              'counter_unit':v['unit'],
                              'counter_volume':v['val'],
                              'counter_type':v['metric_type'],
-                             'resource_id':'exampleservice',
+                             'resource_id':'elineservice',
                              'user_id':keystone_user_id,
                              'tenant_id':keystone_tenant_id
                             }
                 }
           producer.publish(msg)
-          logging.debug('Publishing exampleservice event: %s', msg)
+          logging.debug('Publishing elineservice event: %s', msg)
 
 def periodic_publish():
     global start_publish
@@ -119,10 +119,10 @@ def periodic_publish():
     stats.retrieve_status_page()
     resParse = stats.parse_status_page()
     logging.debug ("publish:%(data)s" % {'data':resParse})
-    publish_exampleservice_stats(resParse)
+    publish_elineservice_stats(resParse)
     threading.Timer(60, periodic_publish).start()
 
 if __name__ == "__main__":
     logging.config.fileConfig('monitoring_agent.conf', disable_existing_loggers=False)
-    logging.info ("Exampleservice monitoring is listening on port 5004")
+    logging.info ("Elineservice monitoring is listening on port 5004")
     app.run(host="0.0.0.0",port=5004,debug=False)

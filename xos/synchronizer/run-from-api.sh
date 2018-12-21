@@ -14,4 +14,4 @@
 # limitations under the License.
 
 
-python exampleservice-synchronizer.py
+python elineservice-synchronizer.py

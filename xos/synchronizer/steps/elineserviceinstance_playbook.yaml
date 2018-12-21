@@ -14,20 +14,27 @@
 # limitations under the License.
 
 
-tosca_definitions_version: tosca_simple_yaml_1_0
+---
+# exampleserviceinstance_playbook
 
-description: Onboard the exampleservice
+- hosts: "{{ instance_name }}"
+  connection: ssh
+  user: ubuntu
+  sudo: yes
+  gather_facts: no
+  vars:
+    - tenant_message: "{{ tenant_message }}"
+    - service_message: "{{ service_message }}"
+    - foreground_color: "{{ foreground_color | default("#000000") }}"
+    - background_color: "{{ background_color | default("#FFFFFF") }}"
+    - images:
+        {% for image in images %}
+        - name: {{ image.name }}
+          url: {{ image.url }}
+        {% endfor %}
 
-imports:
-   - custom_types/xos.yaml
-
-topology_template:
-  node_templates:
-    exampleservice:
-      type: tosca.nodes.ServiceController
-      properties:
-          base_url: file:///opt/xos_services/exampleservice/xos/
-          # The following will concatenate with base_url automatically, if
-          # base_url is non-null.
-          private_key: file:///opt/xos/key_import/exampleservice_rsa
-          public_key: file:///opt/xos/key_import/exampleservice_rsa.pub
+  roles:
+    - install_apache
+    - create_index
+    - post_onos
+  

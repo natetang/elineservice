@@ -14,17 +14,17 @@
 # limitations under the License.
 
 
-name: exampleservice
+name: elineservice
 accessor:
   username: xosadmin@opencord.org
-  password: "@/opt/xos/services/exampleservice/credentials/xosadmin@opencord.org"
+  password: "@/opt/xos/services/elineservice/credentials/xosadmin@opencord.org"
 required_models:
-  - ExampleService
-  - ExampleServiceInstance
+  - ElineService
+  - ElineServiceInstance
   - ServiceDependency
   - ServiceMonitoringAgentInfo
-dependency_graph: "/opt/xos/synchronizers/exampleservice/model-deps"
-steps_dir: "/opt/xos/synchronizers/exampleservice/steps"
-sys_dir: "/opt/xos/synchronizers/exampleservice/sys"
-model_policies_dir: "/opt/xos/synchronizers/exampleservice/model_policies"
-models_dir: "/opt/xos/synchronizers/exampleservice/models"
+dependency_graph: "/opt/xos/synchronizers/elineservice/model-deps"
+steps_dir: "/opt/xos/synchronizers/elineservice/steps"
+sys_dir: "/opt/xos/synchronizers/elineservice/sys"
+model_policies_dir: "/opt/xos/synchronizers/elineservice/model_policies"
+models_dir: "/opt/xos/synchronizers/elineservice/models"

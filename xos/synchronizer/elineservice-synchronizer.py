@@ -14,8 +14,21 @@
 # limitations under the License.
 
 
-from synchronizers.new_base.modelaccessor import *
-from synchronizers.new_base.model_policies.model_policy_tenantwithcontainer import TenantWithContainerPolicy
+#!/usr/bin/env python
 
-class ExampleServiceInstancePolicy(TenantWithContainerPolicy):
-    model_name = "ExampleServiceInstance"
+# Runs the standard XOS synchronizer
+
+import importlib
+import os
+import sys
+from xosconfig import Config
+
+config_file = os.path.abspath(os.path.dirname(os.path.realpath(__file__)) + '/elineservice_config.yaml')
+Config.init(config_file, 'synchronizer-config-schema.yaml')
+
+synchronizer_path = os.path.join(os.path.dirname(
+    os.path.realpath(__file__)), "../../synchronizers/new_base")
+sys.path.append(synchronizer_path)
+mod = importlib.import_module("xos-synchronizer")
+mod.main()
+
