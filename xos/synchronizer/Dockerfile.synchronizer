@@ -14,7 +14,6 @@
 # limitations under the License.
 
 
-# xosproject/exampleservice-synchronizer
 
 FROM xosproject/xos-synchronizer-base:candidate
 

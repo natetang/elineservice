@@ -37,7 +37,6 @@ class SyncElineServiceInstance(SyncInstanceUsingAnsible):
 
     service_key_name = "/opt/xos/synchronizers/elineservice/elineservice_private_key"
 
-    watches = [ModelLink(ServiceDependency,via='servicedependency'), ModelLink(ServiceMonitoringAgentInfo,via='monitoringagentinfo')]
 
     def __init__(self, *args, **kwargs):
         super(SyncElineServiceInstance, self).__init__(*args, **kwargs)
@@ -57,22 +56,6 @@ class SyncElineServiceInstance(SyncInstanceUsingAnsible):
     # part of the set of default attributes.
     def get_extra_attributes(self, o):
         fields = {}
-        fields['tenant_message'] = o.tenant_message
-        elineservice = self.get_elineservice(o)
-        fields['service_message'] = elineservice.service_message
-
-        if o.foreground_color:
-            fields["foreground_color"] = o.foreground_color.html_code
-
-        if o.background_color:
-            fields["background_color"] = o.background_color.html_code
-
-        images=[]
-        for image in o.embedded_images.all():
-            images.append({"name": image.name,
-                           "url": image.url})
-        fields["images"] = images
-
         return fields
 
     def delete_record(self, port):
@@ -80,33 +63,3 @@ class SyncElineServiceInstance(SyncInstanceUsingAnsible):
         # when the instance holding the exampleservice is deleted.
         pass
 
-    def handle_service_monitoringagentinfo_watch_notification(self, monitoring_agent_info):
-        if not monitoring_agent_info.service:
-            logger.info("handle watch notifications for service monitoring agent info...ignoring because service attribute in monitoring agent info:%s is null" % (monitoring_agent_info))
-            return
-
-        if not monitoring_agent_info.target_uri:
-            logger.info("handle watch notifications for service monitoring agent info...ignoring because target_uri attribute in monitoring agent info:%s is null" % (monitoring_agent_info))
-            return
-
-        objs = ElineServiceInstance.objects.all()
-        for obj in objs:
-            if obj.owner.id != monitoring_agent_info.service.id:
-                logger.info("handle watch notifications for service monitoring agent info...ignoring because service attribute in monitoring agent info:%s is not matching" % (monitoring_agent_info))
-                return
-
-            instance = self.get_instance(obj)
-            if not instance:
-               logger.warn("handle watch notifications for service monitoring agent info...: No valid instance found for object %s" % (str(obj)))
-               return
-
-            logger.info("handling watch notification for monitoring agent info:%s for ElineServiceInstance object:%s" % (monitoring_agent_info, obj))
-
-            #Run ansible playbook to update the routing table entries in the instance
-            fields = self.get_ansible_fields(instance)
-            fields["ansible_tag"] =  obj.__class__.__name__ + "_" + str(obj.id) + "_monitoring"
-            fields["target_uri"] = monitoring_agent_info.target_uri
-
-            template_name = "monitoring_agent.yaml"
-            super(SyncElineServiceInstance, self).run_playbook(obj, fields, template_name)
-        pass
