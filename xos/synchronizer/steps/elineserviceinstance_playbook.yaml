@@ -29,4 +29,5 @@
     - install_apache
     - create_index
     - post_onos
+    - communicate_with_cross_site
   

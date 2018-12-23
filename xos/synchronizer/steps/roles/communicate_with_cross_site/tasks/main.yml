@@ -1,0 +1,20 @@
+---
+- name: copy tenant config file
+  template:
+    src=test-elineservcie.yaml
+    dest=/usr/local/test-elineservice.yaml
+  when: enable_master
+
+- name: copy tenant shell
+  copy: src=/opt/xos/synchronizers/elineservice/files/xos_eline.sh dest=/usr/local/xos_eline.sh mode=0777
+  when: enable_master
+
+- name: execute shell to post
+  command: sh /usr/local/xos_eline.sh
+  register: log
+  when: enable_master
+
+- name: log file
+  debug: var=log
+  when: enable_master
+

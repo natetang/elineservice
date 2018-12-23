@@ -2,14 +2,13 @@
  "elines": 
   [
     { 
-      "type":"routing",
+      "type":"orchestration",
       "ENNI": "of:00008cea1be5de9f/100",
       "ENNIMAC": "8C:EA:1B:E5:DE:9F",
       "vGatewayIp": "10.6.7.2/31",
       "vHostIp": "10.6.7.1/31",
       "vlanuntagged": 3,
       "vHostMAC": "A8:2B:B5:3A:3C:D2",
-      "onosCross":"128.110.153.155",
       "crossENNI":"of:0000a82bb53a3cd2/1"
      }
    ]
