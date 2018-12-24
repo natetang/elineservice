@@ -1,8 +1,6 @@
 ---
 - name: copy tenant config file
-  template:
-    src=test-elineservcie.yaml
-    dest=/usr/local/test-elineservice.yaml
+  copy: src=/opt/xos/synchronizers/elineservice/files/test-elineservice.yaml dest=/usr/local/test-elineservice.yaml
   when: enable_master
 
 - name: copy tenant shell
